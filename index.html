@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <title>Gerasimov</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="js/Pool.js"></script>
+    <script src="js/PanZoom.js"></script>
+    <script src="js/FractalView.js"></script>
+
+
+    <script>
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext("2d");
+
+        let panzoom = makePanZoom(canvas);
+
+        let resizeCanvas = function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas, false);
+        window.addEventListener('resize', panzoom.handleResize, false);
+
+
+
+
+        let view = makeFractalView(ctx);
+
+        canvas.addEventListener('panZoom', function(e) {
+            let p = e.detail.position;
+            view.setFrame(p[0], p[1], canvas.width, canvas.height);
+            requestAnimationFrame(animate);
+        }, false);
+
+        view.setFrame(0, 0, canvas.width, canvas.height);
+
+        function draw() {
+            let viewDrawRet = view.draw();
+            if (!viewDrawRet) requestAnimationFrame(animate);
+        }
+
+        function animate() {
+            draw();
+        }
+
+        resizeCanvas();
+        animate();
+    </script>
+</body>
+
+</html>

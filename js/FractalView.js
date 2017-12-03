@@ -80,6 +80,23 @@ let makeFractalView = function(ctx) {
         //that.draw();
     }
 
+    let drawIndex = function() {
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, that.w, 15);
+        ctx.fillRect(0, 0, 20, that.h);
+
+        ctx.font = "15px Courier";
+        ctx.fillStyle = "white";
+        ctx.textAligin = "center";
+
+        for (let i = range[0]; i < range[1]; i++) {
+            ctx.fillText(i, 0, (posFormInd(i) + posFormInd(i + 1)) / 2 - that.y0);
+        }
+        for (let j = range[2]; j < range[3]; j++) {
+            ctx.fillText(j, (posFormInd(j) + posFormInd(j + 1)) / 2 - that.x0, 10);
+        }
+    }
+
     that.draw = function() {
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, that.w, that.h);
@@ -91,6 +108,7 @@ let makeFractalView = function(ctx) {
                     posFormInd(i) - that.y0);
             }
         });
+        drawIndex();
         return (imagesToCalc === 0);
     }
 
